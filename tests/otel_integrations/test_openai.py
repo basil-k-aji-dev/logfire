@@ -4583,6 +4583,14 @@ def test_get_endpoint_config_completions_v2_list_of_strings() -> None:
     )
 
 
+def test_get_endpoint_config_completions_v2_empty_string_prompt() -> None:
+    for prompt in ('', ['']):
+        config = _completions_config(prompt)
+        assert config.span_data['gen_ai.input.messages'] == snapshot(
+            [{'role': 'user', 'parts': [{'type': 'text', 'content': ''}]}]
+        )
+
+
 def test_get_endpoint_config_completions_v2_token_ids_skipped() -> None:
     for prompt in ([1, 2, 3], [[1, 2], [3, 4]], None, [], 5):
         config = _completions_config(prompt)
